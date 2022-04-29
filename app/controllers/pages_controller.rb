@@ -1,8 +1,9 @@
 class PagesController < ApplicationController
+
   def index
-    @pages = Page.all
-    rener component: 'Pages', props: { pages: @pages }
-  end
+ @page = Page.all
+ render component: 'Pages', props: { pages: @pages }
+end
 
   def show
     @page = page.find(params[:id])
@@ -13,4 +14,17 @@ class PagesController < ApplicationController
     @page = Page.new
     render componet: 'PageNew', props: { page: @page }
   end
+end
+
+  def create
+    @page = Page.new(pages_params)
+
+    if @page.save
+    else
+      render component: "PageNew", props: { page: @page}
+  end
+end
+
+def pages_params 
+  params.requir(:page).permit(:title, :author, :body)
 end
